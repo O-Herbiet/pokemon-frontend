@@ -5,17 +5,14 @@ const pokedexContainer = document.getElementById('pokedex-container');
 // Fonction asynchrone pour aller chercher les données
 async function fetchPokemons() {
     try {
-        // On "fetch" (récupère) les données de ton API
         const response = await fetch(apiURL);
-        const data = await response.json(); // On traduit la réponse en JSON
+        const data = await response.json(); 
         
-        // On vérifie si le tableau "data" est vide
         if (data.data.length === 0) {
             pokedexContainer.innerHTML = "<p class='loading'>Aucun Pokémon dans la base de données pour le moment ! 😢</p>";
             return;
         }
 
-        // S'il y a des Pokémon, on lance la fonction pour les afficher
         displayPokemons(data.data);
 
     } catch (error) {
@@ -24,35 +21,30 @@ async function fetchPokemons() {
     }
 }
 
-// Fonction pour fabriquer les cartes HTML (C'EST CETTE PARTIE QUI A CHANGÉ)
+// Fonction pour fabriquer les cartes HTML
 function displayPokemons(pokemons) {
-    pokedexContainer.innerHTML = ""; // On efface le message de chargement
+    pokedexContainer.innerHTML = ""; 
 
-    // Pour chaque pokémon dans ta base de données...
     pokemons.forEach(pokemon => {
-        // On crée une <div>
         const card = document.createElement('div');
         card.classList.add('pokemon-card');
 
-        // On va chercher les infos avec la bonne orthographe de ton JSON
         const nom = pokemon.name.french || 'Inconnu';
         let image = pokemon.image;
-        // Si l'image n'existe pas, ou si elle pointe vers l'ancien "localhost"...
+        
+        // La fameuse rustine anti-localhost !
         if (!image || image.includes('localhost') || !image.startsWith('http')) {
-            // ...on va chercher le vrai sprite officiel !
             image = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`;
         }
-}
+        
         const hp = pokemon.base ? pokemon.base.HP : '?';
 
-        // On remplit la carte
         card.innerHTML = `
             <img src="${image}" alt="Image de ${nom}">
             <h3>${nom}</h3>
             <p>HP : ${hp}</p>
         `;
 
-        // On ajoute la carte à l'écran
         pokedexContainer.appendChild(card);
     });
 }
