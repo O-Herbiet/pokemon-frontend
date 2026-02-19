@@ -36,7 +36,11 @@ function displayPokemons(pokemons) {
 
         // On va chercher les infos avec la bonne orthographe de ton JSON
         const nom = pokemon.name.french || 'Inconnu';
-        const image = pokemon.image || 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/0.png';
+        let image = pokemon.image;
+        // Si l'image n'est pas un lien internet complet, on va chercher le vrai sprite officiel !
+        if (!image || !image.startsWith('http')) {
+            image = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`;
+}
         const hp = pokemon.base ? pokemon.base.HP : '?';
 
         // On remplit la carte
