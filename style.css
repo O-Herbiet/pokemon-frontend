@@ -1,0 +1,57 @@
+/* Style général de la page */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    text-align: center;
+}
+
+header {
+    background-color: #e3350d; /* Le rouge Pokémon */
+    color: white;
+    padding: 20px 0;
+    margin-bottom: 40px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+
+/* La grille pour aligner les cartes proprement */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 0 40px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* Le design d'une carte Pokémon */
+.pokemon-card {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: transform 0.2s; /* Animation fluide */
+}
+
+/* L'effet quand on passe la souris */
+.pokemon-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.pokemon-card img {
+    max-width: 120px;
+    height: 120px;
+}
+
+.pokemon-card h3 {
+    margin: 10px 0 5px;
+    text-transform: capitalize;
+    color: #333;
+}
+
+.loading {
+    font-size: 1.2rem;
+    color: #666;
+    grid-column: 1 / -1;
+}
