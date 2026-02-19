@@ -9,7 +9,7 @@ async function fetchPokemons() {
         const response = await fetch(apiURL);
         const data = await response.json(); // On traduit la réponse en JSON
         
-        // On vérifie si le tableau "data" est vide (comme on l'a vu sur ton navigateur)
+        // On vérifie si le tableau "data" est vide
         if (data.data.length === 0) {
             pokedexContainer.innerHTML = "<p class='loading'>Aucun Pokémon dans la base de données pour le moment ! 😢</p>";
             return;
@@ -24,7 +24,7 @@ async function fetchPokemons() {
     }
 }
 
-// Fonction pour fabriquer les cartes HTML
+// Fonction pour fabriquer les cartes HTML (C'EST CETTE PARTIE QUI A CHANGÉ)
 function displayPokemons(pokemons) {
     pokedexContainer.innerHTML = ""; // On efface le message de chargement
 
@@ -34,11 +34,16 @@ function displayPokemons(pokemons) {
         const card = document.createElement('div');
         card.classList.add('pokemon-card');
 
-        // On remplit la carte avec le nom et l'image (tu pourras adapter selon comment tu as nommé tes variables dans ton schéma mongoose !)
+        // On va chercher les infos avec la bonne orthographe de ton JSON
+        const nom = pokemon.name.french || 'Inconnu';
+        const image = pokemon.image || 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/0.png';
+        const hp = pokemon.base ? pokemon.base.HP : '?';
+
+        // On remplit la carte
         card.innerHTML = `
-            <img src="${pokemon.picture || 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/0.png'}" alt="Image de ${pokemon.name}">
-            <h3>${pokemon.name || 'Nom inconnu'}</h3>
-            <p>HP : ${pokemon.hp || '?'}</p>
+            <img src="${image}" alt="Image de ${nom}">
+            <h3>${nom}</h3>
+            <p>HP : ${hp}</p>
         `;
 
         // On ajoute la carte à l'écran
