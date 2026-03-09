@@ -55,3 +55,29 @@ header {
     color: #666;
     grid-column: 1 / -1;
 }
+
+/* --- LE STYLE DE LA BARRE DE RECHERCHE --- */
+.search-container {
+    text-align: center;
+    margin-bottom: 30px;
+    margin-top: 15px;
+}
+
+#search-input {
+    padding: 12px 25px;
+    width: 80%;
+    max-width: 400px;
+    border: 2px solid #ddd;
+    border-radius: 30px; /* Bords bien ronds ! */
+    font-size: 16px;
+    outline: none; /* Enlève la bordure bleue par défaut */
+    transition: all 0.3s ease; /* Animation fluide */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Petite ombre douce */
+}
+
+/* L'effet quand on clique dedans pour écrire */
+#search-input:focus {
+    border-color: #ff4d4d; /* Devient rouge Pokémon */
+    box-shadow: 0 4px 12px rgba(255, 77, 77, 0.3); /* Ombre rouge lumineuse */
+    transform: scale(1.02); /* Grossit un tout petit peu */
+}
