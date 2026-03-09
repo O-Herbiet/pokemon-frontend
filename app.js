@@ -1,27 +1,41 @@
-// Ton lien Render exact !
 const apiURL = "https://tp-nosql-o-herbiet.onrender.com/api/pokemons";
 const pokedexContainer = document.getElementById('pokedex-container');
+const searchInput = document.getElementById('search-input'); // On récupère la barre de recherche
 
-// Fonction asynchrone pour aller chercher les données
+let allPokemons = []; // On crée une variable pour stocker TOUS les pokémons
+
 async function fetchPokemons() {
     try {
         const response = await fetch(apiURL);
-        const data = await response.json(); 
+        const data = await response.json();
         
         if (data.data.length === 0) {
-            pokedexContainer.innerHTML = "<p class='loading'>Aucun Pokémon dans la base de données pour le moment ! 😢</p>";
+            pokedexContainer.innerHTML = "<p class='loading'>Aucun Pokémon trouvé ! 😢</p>";
             return;
         }
 
-        displayPokemons(data.data);
+        allPokemons = data.data; // On sauvegarde la liste complète ici
+        displayPokemons(allPokemons); // On affiche tout au début
 
     } catch (error) {
-        console.error("Erreur de connexion à l'API :", error);
-        pokedexContainer.innerHTML = "<p class='loading'>Oups, impossible de se connecter à l'API Render.</p>";
+        console.error("Erreur :", error);
+        pokedexContainer.innerHTML = "<p class='loading'>Erreur de connexion à l'API.</p>";
     }
 }
 
-// Fonction pour fabriquer les cartes HTML
+// --- LA MAGIE DE LA RECHERCHE ---
+searchInput.addEventListener('input', (e) => {
+    const searchString = e.target.value.toLowerCase(); // Ce que l'utilisateur tape
+
+    // On filtre la liste sauvegardée
+    const filteredPokemons = allPokemons.filter(pokemon => {
+        const nom = pokemon.name.french.toLowerCase();
+        return nom.includes(searchString);
+    });
+
+    displayPokemons(filteredPokemons); // On ré-affiche seulement ceux qui correspondent
+});
+
 function displayPokemons(pokemons) {
     pokedexContainer.innerHTML = ""; 
 
@@ -32,7 +46,6 @@ function displayPokemons(pokemons) {
         const nom = pokemon.name.french || 'Inconnu';
         let image = pokemon.image;
         
-        // La fameuse rustine anti-localhost !
         if (!image || image.includes('localhost') || !image.startsWith('http')) {
             image = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`;
         }
@@ -44,10 +57,8 @@ function displayPokemons(pokemons) {
             <h3>${nom}</h3>
             <p>HP : ${hp}</p>
         `;
-
         pokedexContainer.appendChild(card);
     });
 }
 
-// On démarre la machine quand le fichier est lu
 fetchPokemons();
